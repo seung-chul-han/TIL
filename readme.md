@@ -12,5 +12,5 @@
 - [javascript patter과 테스트](./javascript/javascript-pattern-%EA%B3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8.md)
 
 ## git
--[명령어](./Git/git-command.md)
--[파일명 수정](./Git/파일명-수정.md)
+- [명령어](./Git/git-command.md)
+- [파일명 수정](./Git/파일명-수정.md)
