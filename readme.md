@@ -13,3 +13,4 @@
 
 ## git
 -[명령어](./Git/git-command.md)
+-[파일명 수정](./Git/파일명-수정.md)

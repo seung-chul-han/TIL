@@ -10,4 +10,5 @@ Provider에서 useEffect로 action의 메서드를 호출
 
 ## 해결
 
-아직 모르겠다....
+provider는  데이터를 전달만 해주는 역할이다
+비지니스 로직은 다른 파일에서 작성후 provider에 전달 하도록 하자
