@@ -5,6 +5,7 @@
 
 ## css
 - [명세 읽는 법](./css/명세-읽는-법.md)
+- [body min height 100%](./css/body-min-height.md)
 
 ## javascript
 
