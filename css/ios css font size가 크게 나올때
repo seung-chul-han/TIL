@@ -1,0 +1,9 @@
+[stackoverflow](https://stackoverflow.com/questions/3226001/some-font-sizes-rendered-larger-on-safari-iphone)
+```css
+@media screen and (max-device-width: 480px){
+  body{
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+```
