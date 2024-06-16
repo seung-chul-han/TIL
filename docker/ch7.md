@@ -82,3 +82,64 @@ DNS 조회를 사용하면 컨테이너가 교체돼 IP 주소가 변경되더�
 
 도커 컴포즈는 컨테이너를 실행할 때 지정하는 모든 옵션값을 기억한다.
 이들 옵션값을 통해 컨테이너 간의 통신을 처리한다.
+
+## 7.4 도커 컴포즈로 애플리케이션 설정값 지정하기
+
+```yml
+version: '3.7'
+
+services:
+  todo-db:
+    image: diamol/postgres:11.5
+    ports:
+      - '5433:5432'
+    networks:
+      - app-net
+
+  todo-web:
+    image: diamol/ch06-todo-list
+    ports:
+      - '8030:80'
+    # 컨테이너 안에서 사용될 환경 변수 값이 정의된다.
+    environment:
+      - Database:Provider=Postgres
+    depends_on:
+      - todo-db
+    networks:
+      - app-net
+    # 실행 시 컨테이너 내부의 파일에 기록될 비밀값을 정의한다.
+    # 애플리케이션이 실행되면 컨테이너에 /app/config/secrets.json 파일이 생기고
+    # 이 파일에는 postgres-connection이라는 이름의 비밀값의 값이 기록된다.
+    secrets:
+      - source: postgres-connection
+        target: /app/config/secrets.json
+
+networks:
+  app-net:
+
+# 비밀값 postgres-connection의 값을 secrets.json 파일에서 읽어 오라는 의미
+secrets:
+  postgres-connection:
+    file: ./config/secrets.json
+```
+
+비밀값은 주로 클러스터 환경에서 쿠버네티스나 도커 스웜 같은 컨테이너 플랫폼을 통해 제공된다.
+평소에는 클러스터 테이더베이스에 암호화돼 있기 때문에 데이터베이스 패스워드, 인증서, API 키 등 민감한 정보로 구성된 설정값을 전달하는 데 적합하다. 도커를 단일 컴퓨터에서 실행하는 상황이라면 비밀값을 보관하는 클러스터 데이터베이스가 없을 것이므로 파일을 통해 비밀값을 전달해도 된다.
+
+**클러스터 란**
+
+- 사전적 정의: 집합, 군집
+- 하나의 데이터베이스를 여러개의 서버로 구축되는 경우를 클러스터(Cluster)라고 지칭한다.
+
+데이터베이스 클러스터의 조건을 만족시키기 위한 3요소
+
+- 고가용성
+- 병렬처리
+- 성능향상
+
+```sh
+# 컴포즈 파일에 정의된 모든 컨테이너의 목록을 보여 준다.
+docker-compose ps
+```
+
+패키징된 애플리케이션과 설정값을 분리할 수 있다는 것도 도커의 장점 중 하나다.
